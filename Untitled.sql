@@ -110,9 +110,10 @@ values (11, 'Jenny So', str_to_date('1990-01-01', '%Y-%m-%d'), '12.99', str_to_d
 select * from customer where join_date between str_to_date('2023-01-01', '%Y-%m-%d') and str_to_date('2023-12-31', '%Y-%m-%d');
 select * from customer where join_date >= str_to_date('2023-01-01', '%Y-%m-%d') and join_date <= str_to_date('2023-12-31', '%Y-%m-%d');
 
--- where: >, <, >=, <=
+-- where: >, <, >=, <=, <>(!=)
 -- ifnull() funtion: Treat null value as another specified values
 -- coalesce 可以接受多個參數
+-- (如果score為空值，則將其視為100）
 select * from customer where ifnull(score, 100) > 0 and ifnull(score,100) < 1000;
 select * from customer where coalesce(score, 100) > 0 and coalesce(score,100) < 1000;
 
@@ -309,7 +310,7 @@ from employee e
 group by e.dept_id;
 
 -- Find the staff_name who has the max year of exp
--- select max(year_of_exp) , staff_name from employee -- wrong ocmpile
+-- select max(year_of_exp) , staff_name from employee -- wrong compile
 -- Sub query -> CTE
 select *
 from employee
@@ -336,8 +337,16 @@ group by e.dept_id
 having count(1) > 1; -- filter group after group by 
 
 
+-- leet code 1045 
+select customer_id 
+from customer
+group by customer_id
+having count(distinct(product_key)) = (select count(*) from product)
+-- 1.count(*) from product
+-- 2.DISTINCT count(*) from Customer product_key
 
 
+-- Find all countries of our
 
 
 
