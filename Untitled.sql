@@ -341,12 +341,47 @@ having count(1) > 1; -- filter group after group by
 select customer_id 
 from customer
 group by customer_id
-having count(distinct(product_key)) = (select count(*) from product)
+having count(distinct(product_key)) = (select count(*) from product);
 -- 1.count(*) from product
 -- 2.DISTINCT count(*) from Customer product_key
 
 
--- Find all countries of our
+-- Find all countries of our employees
+-- Distinct more than on field (Checking if the values in all fields are duplicated)
+select distinct country_id, staff_name from employee;
+-- select country_id, distinct staff_name from employee; -- error
+
+-- UNION : remove duplicated records, according to name only
+select e.staff_name as name
+from employee e
+UNION
+select c.cust_name as name
+from customer c;
+
+-- UNION : remove duplicated records, according to id and name
+select e.id, e.staff_name as name
+from employee e 
+UNION 
+select c.id, c.cust_name as name
+from customer c;
+
+-- UNION ALL
+select e.id, e.staff_name as name
+from employee e 
+UNION ALL
+select c.id, c.cust_name as name
+from customer c;
+
+-- print table 3 times
+select e.id, e.staff_name as name
+from employee e
+UNION ALL
+select c.id, c.cust_name as name
+from customer c
+UNION ALL
+select e.id, e.staff_name as name
+from employee e;
+
 
 
 
